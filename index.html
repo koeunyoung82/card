@@ -106,12 +106,13 @@
   .card-name-block {}
   .card-badge {
     display: inline-block;
-    font-size: 9px;
-    letter-spacing: 0.2em;
+    font-size: 8px;
+    letter-spacing: 0.12em;
     color: #c9a84c;
     border: 1px solid rgba(201,168,76,0.4);
-    padding: 3px 10px;
+    padding: 3px 8px;
     margin-bottom: 8px;
+    white-space: nowrap;
   }
   .card-name {
     font-family: 'Noto Serif KR', serif;
@@ -156,13 +157,14 @@
     background: #1a1410;
   }
   .role-tag {
-    font-size: 10px;
-    letter-spacing: 0.08em;
+    font-size: 9px;
+    letter-spacing: 0.05em;
     color: #c4b5a5;
     background: rgba(201,168,76,0.08);
     border: 1px solid rgba(201,168,76,0.2);
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 20px;
+    white-space: nowrap;
   }
 
   /* 본문 영역 */
@@ -237,7 +239,7 @@
     border-top: 1px solid #e0d8cc;
   }
   .location-dot { width: 6px; height: 6px; border-radius: 50%; background: #c9a84c; flex-shrink: 0; }
-  .location-text { font-size: 11px; color: #7a6e62; letter-spacing: 0.05em; }
+  .location-text { font-size: 10px; color: #7a6e62; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   /* 하단 골드 라인 */
   .card-bottom-line {
@@ -337,7 +339,7 @@
     <!-- 지역 -->
     <div class="location-row">
       <div class="location-dot"></div>
-      <div class="location-text">강원특별자치도 원주 · 횡성 기반 구조형 커뮤니케이터 · 2026</div>
+      <div class="location-text">강원 원주·횡성 · 구조형 커뮤니케이터 · 2026</div>
     </div>
   </div>
 
