@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>스피치 종합 자기점검 — 고은영 스피치 강사</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; background: #f9f6f0; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 32px 16px; }
+
+  .wrap { background: #fff; border-radius: 18px; border: 1px solid #ede8dc; max-width: 640px; width: 100%; padding: 30px 30px 36px; }
+
+  /* TOP */
+  .top-bar { display: flex; align-items: center; gap: 13px; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #ede8dc; }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; background: #8b4513; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px; font-weight: 600; flex-shrink: 0; }
+  .top-title { font-size: 16px; font-weight: 600; color: #1a1410; }
+  .top-sub { font-size: 12px; color: #7a6e62; margin-top: 2px; }
+
+  /* PROGRESS */
+  .prog-wrap { margin-bottom: 1.75rem; }
+  .prog-meta { display: flex; justify-content: space-between; font-size: 11px; color: #7a6e62; margin-bottom: 6px; }
+  .prog-bar { height: 3px; background: #ede8dc; border-radius: 2px; }
+  .prog-fill { height: 100%; background: #8b4513; border-radius: 2px; transition: width 0.35s ease; }
+
+  /* QUESTION */
+  .cat-pill { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #8b4513; background: #fdf4ee; border: 1px solid #e8c9a8; border-radius: 20px; padding: 3px 12px; margin-bottom: 12px; }
+  .q-text { font-size: 17px; font-weight: 500; color: #1a1410; line-height: 1.6; margin-bottom: 1.5rem; }
+
+  .opts { display: flex; flex-direction: column; gap: 9px; margin-bottom: 1.75rem; }
+  .opt { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border: 1px solid #e0d8cc; border-radius: 10px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .opt:hover { border-color: #c4763a; background: #fdf9f5; }
+  .opt.sel { border-color: #8b4513; background: #fdf4ee; }
+  .opt-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #c4b5a5; flex-shrink: 0; position: relative; transition: all 0.15s; }
+  .opt.sel .opt-dot { background: #8b4513; border-color: #8b4513; }
+  .opt.sel .opt-dot::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+  .opt-label { font-size: 14px; color: #1a1410; }
+
+  /* FREE TEXT STEP */
+  .free-box { margin-bottom: 1.75rem; }
+  .free-desc { font-size: 13px; color: #7a6e62; line-height: 1.7; margin-bottom: 12px; }
+  .free-textarea { width: 100%; border: 1px solid #e0d8cc; border-radius: 10px; padding: 14px 16px; font-size: 14px; font-family: inherit; color: #1a1410; line-height: 1.7; resize: vertical; min-height: 120px; background: #fdf9f5; transition: border-color 0.15s; }
+  .free-textarea:focus { outline: none; border-color: #8b4513; background: #fff; }
+  .free-textarea::placeholder { color: #b5a99e; }
+  .char-count { text-align: right; font-size: 11px; color: #b5a99e; margin-top: 5px; }
+
+  /* NAV */
+  .nav { display: flex; justify-content: space-between; align-items: center; }
+  .btn { padding: 10px 22px; border-radius: 8px; font-size: 14px; cursor: pointer; border: 1px solid #d6cfc4; background: #fff; color: #1a1410; transition: background 0.15s; font-family: inherit; }
+  .btn:hover { background: #f5f0e8; }
+  .btn-main { background: #8b4513; color: #fff; border-color: #8b4513; font-weight: 500; }
+  .btn-main:hover { background: #7a3a10; }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav-counter { font-size: 12px; color: #7a6e62; }
+
+  /* LOADING */
+  .loading { text-align: center; padding: 3rem 0; display: none; }
+  .loading.on { display: block; }
+  .loading-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #8b4513; animation: bounce 1.2s infinite; }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+  .loading-text { font-size: 14px; color: #7a6e62; }
+
+  /* RESULT */
+  .result { display: none; }
+  .result.on { display: block; }
+
+  .score-area { text-align: center; padding: 1.5rem 0 1.25rem; }
+  .ring-wrap { position: relative; width: 140px; height: 140px; margin: 0 auto 1rem; }
+  .ring-wrap svg { width: 140px; height: 140px; transform: rotate(-90deg); }
+  .ring-num { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 32px; font-weight: 600; color: #1a1410; }
+  .type-name { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+  .type-desc { font-size: 14px; color: #5a5047; line-height: 1.75; max-width: 420px; margin: 0 auto; }
+
+  .section-title { font-size: 13px; font-weight: 600; color: #1a1410; margin: 1.5rem 0 10px; padding-bottom: 6px; border-bottom: 1px solid #ede8dc; }
+
+  .dim-row { margin-bottom: 16px; }
+  .dim-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .dim-name { font-size: 13px; font-weight: 500; color: #1a1410; }
+  .dim-pct { font-size: 12px; color: #7a6e62; font-weight: 500; }
+  .dim-track { height: 5px; background: #ede8dc; border-radius: 3px; }
+  .dim-fill { height: 100%; border-radius: 3px; background: #8b4513; transition: width 0.9s ease; }
+  .dim-tip { font-size: 12px; color: #7a6e62; margin-top: 4px; line-height: 1.65; }
+
+  /* AI 피드백 박스 */
+  .ai-box { border: 1px solid #e0d8cc; border-radius: 12px; padding: 1rem 1.25rem; background: #fdf9f5; margin-bottom: 1rem; }
+  .ai-box-head { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #8b4513; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .ai-badge { display: inline-block; background: #8b4513; color: #fff; font-size: 9px; padding: 2px 7px; border-radius: 10px; letter-spacing: 0.05em; }
+  .ai-content { font-size: 13px; color: #1a1410; line-height: 1.8; }
+  .ai-content p { margin-bottom: 6px; }
+
+  /* 꿀팁 */
+  .tip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+  .tip-card { background: #fdf4ee; border: 1px solid #e8c9a8; border-radius: 10px; padding: 12px 14px; }
+  .tip-icon { font-size: 18px; margin-bottom: 6px; }
+  .tip-title { font-size: 12px; font-weight: 600; color: #8b4513; margin-bottom: 4px; }
+  .tip-body { font-size: 11px; color: #5a5047; line-height: 1.65; }
+
+  .advice-card { border: 1px solid #e0d8cc; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .advice-head { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #8b4513; margin-bottom: 10px; }
+  .advice-item { font-size: 13px; color: #1a1410; line-height: 1.75; padding-left: 14px; position: relative; margin-bottom: 5px; }
+  .advice-item::before { content: '·'; position: absolute; left: 0; color: #8b4513; font-weight: 600; }
+
+  .cta { background: #fdf4ee; border: 1px solid #e8c9a8; border-radius: 14px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
+  .cta-name { font-size: 15px; font-weight: 600; color: #8b4513; margin-bottom: 4px; }
+  .cta-sub { font-size: 12px; color: #a0744a; margin-bottom: 14px; line-height: 1.6; }
+  .cta-tel { display: inline-block; padding: 11px 28px; background: #8b4513; color: #fff; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; }
+  .cta-tel:hover { background: #7a3a10; }
+
+
+  /* 이메일 전송 폼 */
+  .email-section { margin-top: 1.5rem; border: 1px solid #e8c9a8; border-radius: 14px; padding: 1.25rem 1.5rem; background: #fdf4ee; }
+  .email-title { font-size: 14px; font-weight: 600; color: #8b4513; margin-bottom: 4px; }
+  .email-sub { font-size: 12px; color: #a0744a; margin-bottom: 14px; line-height: 1.6; }
+  .email-row { display: flex; gap: 8px; }
+  .email-input { flex: 1; border: 1px solid #e0d8cc; border-radius: 8px; padding: 10px 14px; font-size: 14px; font-family: inherit; color: #1a1410; background: #fff; }
+  .email-input:focus { outline: none; border-color: #8b4513; }
+  .email-input::placeholder { color: #b5a99e; }
+  .email-send-btn { padding: 10px 18px; background: #8b4513; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .email-send-btn:hover { background: #7a3a10; }
+  .email-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .email-status { font-size: 12px; margin-top: 8px; text-align: center; min-height: 18px; }
+  .email-status.ok { color: #1d6a4a; }
+  .email-status.err { color: #c0392b; }
+  .reset { display: block; margin: 1rem auto 0; background: transparent; border: 1px solid #d6cfc4; color: #7a6e62; padding: 9px 22px; border-radius: 8px; font-size: 13px; cursor: pointer; font-family: inherit; }
+  .reset:hover { background: #f5f0e8; }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 20px 16px 24px; }
+    .q-text { font-size: 15px; }
+    .tip-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <div class="avatar">고</div>
+    <div>
+      <div class="top-title">스피치 종합 자기점검</div>
+      <div class="top-sub">고은영 스피치 강사 · 7개 영역 14문항 + 맞춤 피드백</div>
+    </div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-meta">
+      <span id="prog-label">준비 중</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div id="quiz-area"></div>
+  <div class="loading" id="loading">
+    <div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="loading-text">AI가 답변을 분석하고 있어요...</div>
+  </div>
+  <div class="result" id="result-area"></div>
+</div>
+
+<script>
+let _lastResult = {};
+const QS = [
+  { cat:"발음 & 발성", q:"말을 할 때 상대방이 자주 '다시 말해달라'거나 '잘 못 들었다'고 하나요?", opts:["거의 없어요","가끔 있어요","자주 있어요","항상 그래요"], dim:0, rev:false },
+  { cat:"발음 & 발성", q:"긴 문장을 말할 때 끝 부분이 작아지거나 흐려지나요?", opts:["거의 없어요","가끔 있어요","자주 있어요","항상 그래요"], dim:0, rev:false },
+  { cat:"말하는 속도", q:"대화나 발표 중 말이 빨라져서 스스로 당황한 적이 있나요?", opts:["없어요","가끔 있어요","자주 있어요","항상 그래요"], dim:1, rev:false },
+  { cat:"말하는 속도", q:"중요한 내용을 말할 때 의도적으로 속도를 늦추거나 강조할 수 있나요?", opts:["잘 돼요","어느 정도 돼요","잘 안 돼요","전혀 안 돼요"], dim:1, rev:true },
+  { cat:"어조 & 억양", q:"말이 단조롭다는 이야기를 들어본 적 있나요?", opts:["없어요","한두 번 있어요","여러 번 있어요","자주 들어요"], dim:2, rev:false },
+  { cat:"어조 & 억양", q:"감정이나 의도를 목소리 톤으로 자연스럽게 표현할 수 있나요?", opts:["매우 잘 돼요","어느 정도 돼요","잘 안 돼요","전혀 안 돼요"], dim:2, rev:true },
+  { cat:"눈맞춤 & 시선", q:"많은 사람 앞에서 말할 때 시선을 어디에 두나요?", opts:["골고루 눈맞춤해요","한 방향만 봐요","허공이나 메모를 봐요","눈을 못 마주쳐요"], dim:3, rev:false },
+  { cat:"눈맞춤 & 시선", q:"1:1 대화 중 상대방과 자연스럽게 눈을 마주칠 수 있나요?", opts:["매우 자연스러워요","어느 정도 가능해요","불편해요","거의 못 해요"], dim:3, rev:true },
+  { cat:"자신감 & 태도", q:"말하기 전 긴장이나 불안을 자주 느끼나요?", opts:["거의 없어요","가끔 있어요","자주 있어요","항상 느껴요"], dim:4, rev:false },
+  { cat:"자신감 & 태도", q:"실수를 해도 당황하지 않고 자연스럽게 이어나갈 수 있나요?", opts:["잘 돼요","어느 정도 돼요","잘 안 돼요","전혀 안 돼요"], dim:4, rev:true },
+  { cat:"내용 구성력", q:"하고 싶은 말을 전달했는데 상대방이 핵심을 못 잡는 경우가 있나요?", opts:["거의 없어요","가끔 있어요","자주 있어요","항상 있어요"], dim:5, rev:false },
+  { cat:"내용 구성력", q:"말하기 전에 서론·본론·결론 순서로 머릿속에 정리하나요?", opts:["항상 해요","가끔 해요","잘 안 해요","전혀 안 해요"], dim:5, rev:true },
+  { cat:"청중 반응 파악", q:"말하는 도중 청중(상대방)의 표정이나 반응을 살피나요?", opts:["항상 살펴요","가끔 살펴요","잘 못 살펴요","전혀 못 살펴요"], dim:6, rev:true },
+  { cat:"청중 반응 파악", q:"청중 반응이 좋지 않을 때 즉석에서 내용을 바꾸거나 조정하나요?", opts:["잘 돼요","가끔 돼요","잘 안 돼요","전혀 안 돼요"], dim:6, rev:true },
+];
+
+const FREE_Q = {
+  cat: "나의 스피치 고민",
+  q: "스피치를 배우고 싶은 이유나 평소 말하기에서 가장 힘든 점을 자유롭게 적어주세요.",
+  placeholder: "예) 발표할 때 너무 긴장해서 목소리가 떨려요. 중요한 자리에서 하고 싶은 말을 제대로 못하는 것 같아요..."
+};
+
+const DIMS = ["발음·발성","말하는 속도","어조·억양","눈맞춤·시선","자신감·태도","내용 구성력","청중 반응"];
+const TIPS_BY_DIM = [
+  ["복식호흡 후 시 낭독 연습이 발성을 키우는 가장 빠른 방법이에요.","과장되게 읽는 연습으로 입 모양을 정확히 만들어보세요.","끝 음절을 살짝 올려 끊는 습관이 또렷한 발음을 만들어요."],
+  ["마침표에서 2초 멈추기 연습이 속도 조절에 가장 효과적이에요.","중요한 단어 앞에서 0.5초 쉬는 습관을 들여보세요.","녹음 후 들어보면 자신의 속도를 객관적으로 파악할 수 있어요."],
+  ["감정 키워드에 '악센트'를 주는 연습이 억양을 살려줘요.","뉴스 앵커의 억양을 따라 읽는 쉐도잉이 효과적입니다.","문장 끝을 올리고 내리는 패턴만 바꿔도 생동감이 달라져요."],
+  ["청중을 3등분해서 골고루 시선을 이동하는 연습을 해보세요.","눈이 부담스럽다면 코 주변을 보는 것이 자연스러워요.","2~3초 눈맞춤 후 다음 사람으로 이동하는 리듬을 만들어보세요."],
+  ["말하기 직전 코로 천천히 숨쉬기 3회가 긴장 완화에 효과적이에요.","실수는 당황 말고 '가볍게 인정 후 계속'이 프로의 기술입니다.","긴장은 에너지예요. '설레는 것'이라고 재정의해보세요."],
+  ["말하기 전 30초 동안 3가지 핵심만 메모하는 습관을 만드세요.","'한 문장 요약 → 3가지 이유 → 결론' 구조가 가장 강력해요.","두괄식: 결론을 먼저 말하고 이유를 나중에 설명해보세요."],
+  ["고개 끄덕임, 눈맞춤 여부로 청중 반응을 먼저 파악해보세요.","'제가 잘 전달했을까요?' 한마디로 확인하는 습관이 좋아요.","청중 반응을 읽으면 말의 속도와 깊이가 자연스럽게 조절돼요."],
+];
+
+const TYPES = [
+  { min:85, name:"완성형 스피커", desc:"전달력과 구성력이 모두 뛰어납니다. 전문 강사·MC로도 충분한 수준이에요.", color:"#1d6a4a" },
+  { min:65, name:"발전형 스피커", desc:"대부분 잘 갖춰져 있지만 일부 영역을 다듬으면 완성도가 훨씬 높아져요.", color:"#8b4513" },
+  { min:45, name:"성장형 스피커", desc:"기초는 있지만 일관성이 부족해요. 체계적인 연습으로 빠르게 향상될 수 있어요.", color:"#b07a30" },
+  { min:0,  name:"기초형 스피커", desc:"아직 긴장이 많고 전달이 어려운 상황이에요. 누구나 이 단계에서 시작해요!", color:"#7a6e62" },
+];
+
+const HONEYTIPS_BY_DIM = [
+  [ // 발음·발성
+    { icon:"🎙", title:"복식호흡 연습", body:"말하기 전 배로 숨쉬는 연습을 하루 5분만 해도 발성이 달라져요." },
+    { icon:"📖", title:"소리 내어 읽기", body:"신문 1단락을 매일 또렷하게 읽으면 발음 정확도가 빠르게 올라요." },
+    { icon:"🔁", title:"끝 음절 살리기", body:"문장 끝을 또렷하게 끊는 습관이 전달력을 확 높여줘요." },
+    { icon:"🎧", title:"녹음 피드백", body:"하루 1분 녹음 후 들어보면 발음 습관을 객관적으로 파악할 수 있어요." },
+  ],
+  [ // 말하는 속도
+    { icon:"⏸", title:"마침표 2초 멈춤", body:"문장이 끝날 때마다 2초 쉬는 것만으로 속도가 자연스러워져요." },
+    { icon:"🎧", title:"녹음 피드백", body:"자신의 말을 녹음해 들으면 빠른 습관을 스스로 발견할 수 있어요." },
+    { icon:"✏️", title:"핵심 단어 표시", body:"말하기 전 원고에서 강조 단어에 표시하면 속도 조절이 쉬워져요." },
+    { icon:"🫁", title:"호흡으로 속도 조절", body:"말이 빨라지면 코로 천천히 한 번 숨쉬고 다시 시작해보세요." },
+  ],
+  [ // 어조·억양
+    { icon:"🎵", title:"감정 키워드 강조", body:"중요한 단어 앞에서 목소리 톤을 살짝 올리면 생동감이 생겨요." },
+    { icon:"📺", title:"앵커 쉐도잉", body:"뉴스 앵커 억양을 따라 읽는 연습이 억양 교정에 가장 효과적이에요." },
+    { icon:"🪜", title:"올리고 내리기", body:"문장 끝을 올리고 내리는 패턴만 바꿔도 말이 훨씬 풍부해져요." },
+    { icon:"🎭", title:"감정 연기 읽기", body:"같은 문장을 기쁘게·진지하게·슬프게 읽어보면 억양 폭이 넓어져요." },
+  ],
+  [ // 눈맞춤·시선
+    { icon:"👁", title:"3분할 시선법", body:"청중을 좌·중·우 세 구역으로 나눠 골고루 시선을 이동해보세요." },
+    { icon:"👃", title:"코 보기 팁", body:"눈이 부담스럽다면 상대방 코를 보세요. 자연스러운 눈맞춤처럼 보여요." },
+    { icon:"⏱", title:"2초 눈맞춤 리듬", body:"한 사람과 2~3초 눈맞춤 후 다음 사람으로 이동하는 리듬을 만들어보세요." },
+    { icon:"🪞", title:"거울 스피치", body:"거울 앞에서 말하면 시선 습관과 표정을 동시에 바로잡을 수 있어요." },
+  ],
+  [ // 자신감·태도
+    { icon:"🫁", title:"3회 호흡 루틴", body:"말하기 직전 코로 천천히 3번 숨쉬면 긴장이 빠르게 가라앉아요." },
+    { icon:"💪", title:"긴장 재정의", body:"긴장은 에너지예요. '설레는 것'이라고 바꿔 생각해보세요." },
+    { icon:"😌", title:"실수 인정 기술", body:"실수하면 당황 말고 '가볍게 인정 후 계속'이 프로의 기술이에요." },
+    { icon:"🗣", title:"소그룹 발표 연습", body:"3~5명 앞에서 자주 말하다 보면 자신감이 자연스럽게 쌓여요." },
+  ],
+  [ // 내용 구성력
+    { icon:"✏️", title:"30초 메모 습관", body:"말하기 전 30초 동안 핵심 3가지만 메모하는 습관을 만들어보세요." },
+    { icon:"🔺", title:"두괄식 말하기", body:"결론을 먼저 말하고 이유를 설명하면 전달력이 훨씬 강해져요." },
+    { icon:"3️⃣", title:"3포인트 구조", body:"'요약 1문장 → 이유 3가지 → 결론' 구조가 가장 쉽고 강력해요." },
+    { icon:"🎯", title:"한 문장 요약 연습", body:"말하고 나서 '한 문장으로 요약하면?'을 스스로 물어보는 습관이 좋아요." },
+  ],
+  [ // 청중 반응
+    { icon:"👀", title:"반응 신호 읽기", body:"고개 끄덕임·눈맞춤 여부로 청중 반응을 먼저 파악해보세요." },
+    { icon:"💬", title:"전달 확인 질문", body:"'제가 잘 전달했을까요?' 한마디로 확인하는 습관이 소통을 높여요." },
+    { icon:"🔄", title:"즉석 조정 연습", body:"반응이 없으면 속도를 늦추거나 예시를 추가하는 유연함을 키워보세요." },
+    { icon:"🤝", title:"공감 언어 사용", body:"'혹시 이런 경험 있으신가요?' 같은 질문이 청중과의 거리를 좁혀줘요." },
+  ],
+];
+
+function getPersonalTips(weakDims) {
+  const tips = [];
+  const seen = new Set();
+  for (const {i} of weakDims) {
+    for (const t of HONEYTIPS_BY_DIM[i]) {
+      if (!seen.has(t.title)) { tips.push(t); seen.add(t.title); }
+      if (tips.length >= 4) break;
+    }
+    if (tips.length >= 4) break;
+  }
+  return tips;
+}
+
+const TOTAL_STEPS = QS.length + 1; // 14 + 1 자유서술
+let cur = 0;
+let ans = new Array(QS.length).fill(-1);
+let freeText = "";
+
+function score(i) {
+  const q = QS[i]; const a = ans[i];
+  if (a < 0) return null;
+  return q.rev ? a : (3 - a);
+}
+
+function dimScores() {
+  return DIMS.map((_, d) => {
+    const idxs = QS.map((q,i)=>({q,i})).filter(({q})=>q.dim===d);
+    const vals = idxs.map(({i})=>score(i)).filter(v=>v!==null);
+    if (!vals.length) return 0;
+    return Math.round((vals.reduce((a,b)=>a+b,0)/(vals.length*3))*100);
+  });
+}
+
+function totalScore() {
+  const d = dimScores();
+  return Math.round(d.reduce((a,b)=>a+b,0)/d.length);
+}
+
+function updateProg() {
+  const done = cur >= QS.length ? QS.length : cur;
+  const pct = Math.round((done / TOTAL_STEPS) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+  if (cur < QS.length) {
+    document.getElementById('prog-label').textContent = `${cur+1}번째 질문 (총 ${TOTAL_STEPS}단계)`;
+  } else {
+    document.getElementById('prog-label').textContent = '나의 고민 작성';
+  }
+}
+
+function render() {
+  updateProg();
+  if (cur < QS.length) renderQ();
+  else renderFree();
+}
+
+function renderQ() {
+  const q = QS[cur];
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="cat-pill">${q.cat}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts">
+      ${q.opts.map((o,i)=>`
+        <div class="opt${ans[cur]===i?' sel':''}" onclick="pick(${i})">
+          <div class="opt-dot"></div>
+          <div class="opt-label">${o}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goPrev()" ${cur===0?'disabled':''}>이전</button>
+      <span class="nav-counter">${cur+1} / ${TOTAL_STEPS}</span>
+      <button class="btn btn-main" onclick="goNext()" ${ans[cur]<0?'disabled':''}>다음 →</button>
+    </div>
+  `;
+}
+
+function renderFree() {
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="cat-pill">${FREE_Q.cat}</div>
+    <div class="q-text">${FREE_Q.q}</div>
+    <div class="free-box">
+      <div class="free-desc">점검 결과와 함께 AI가 맞춤 피드백을 드릴게요. 편하게 적어주세요 😊</div>
+      <textarea class="free-textarea" id="freeInput" maxlength="500"
+        placeholder="${FREE_Q.placeholder}"
+        oninput="onFreeInput(this)">${freeText}</textarea>
+      <div class="char-count"><span id="charCount">${freeText.length}</span> / 500자</div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goPrev()">이전</button>
+      <span class="nav-counter">${TOTAL_STEPS} / ${TOTAL_STEPS}</span>
+      <button class="btn btn-main" onclick="submitAll()">진단 결과 보기 →</button>
+    </div>
+  `;
+}
+
+function onFreeInput(el) {
+  freeText = el.value;
+  document.getElementById('charCount').textContent = freeText.length;
+}
+
+function pick(i) { ans[cur] = i; render(); }
+
+function goPrev() {
+  if (cur > 0) { cur--; render(); }
+}
+
+function goNext() {
+  if (cur < QS.length - 1 && ans[cur] >= 0) { cur++; render(); }
+  else if (cur === QS.length - 1 && ans[cur] >= 0) { cur++; render(); }
+}
+
+function submitAll() {
+  document.getElementById('quiz-area').style.display = 'none';
+  document.getElementById('loading').className = 'loading on';
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-pct').textContent = '분석 중';
+  document.getElementById('prog-label').textContent = 'AI 분석 중...';
+
+  // AI 피드백 생성 (Anthropic API)
+  const dimScoresArr = dimScores();
+  const total = totalScore();
+  const type = TYPES.find(t => total >= t.min);
+  const weakDims = dimScoresArr.map((v,i)=>({v,i})).sort((a,b)=>a.v-b.v).slice(0,2);
+
+  const prompt = `당신은 고은영 스피치 강사의 AI 어시스턴트입니다. 수강생이 스피치 자기점검을 완료했습니다.
+
+[진단 결과]
+종합 점수: ${total}점 / 유형: ${type.name}
+${DIMS.map((d,i)=>`- ${d}: ${dimScoresArr[i]}점`).join('\n')}
+가장 취약한 영역: ${DIMS[weakDims[0].i]}(${weakDims[0].v}점), ${DIMS[weakDims[1].i]}(${weakDims[1].v}점)
+
+[수강생이 적은 고민]
+${freeText || '(작성하지 않음)'}
+
+위 정보를 바탕으로 따뜻하고 전문적인 한국어로 피드백을 작성해주세요.
+- 3~4문장 이내로 간결하게
+- 고민 내용에 공감하는 문장 1개
+- 진단 결과를 반영한 핵심 조언 1~2개
+- 마지막에 응원 한 마디
+- 친근하고 따뜻한 말투 (습니다체 사용)
+JSON이나 마크다운 없이 순수 텍스트로만 답변하세요.`;
+
+  fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 300,
+      messages: [{ role: "user", content: prompt }]
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    const feedback = data.content && data.content[0] ? data.content[0].text : getFallbackFeedback(type, weakDims, dimScoresArr);
+    showResult(total, dimScoresArr, type, weakDims, feedback);
+  })
+  .catch(() => {
+    const feedback = getFallbackFeedback(type, weakDims, dimScoresArr);
+    showResult(total, dimScoresArr, type, weakDims, feedback);
+  });
+}
+
+function getFallbackFeedback(type, weakDims, dimScoresArr) {
+  const worry = freeText ? `"${freeText.slice(0,40)}..."에 대한 고민, 충분히 공감해요.` : "스피치에 대한 고민을 가지고 있다는 것 자체가 성장의 시작이에요.";
+  return `${worry} 진단 결과 ${DIMS[weakDims[0].i]}와 ${DIMS[weakDims[1].i]} 영역에 집중하면 가장 빠르게 변화를 느낄 수 있어요. ${TIPS_BY_DIM[weakDims[0].i][0]} 꾸준한 연습이 최고의 방법이에요. 함께라면 분명 달라질 수 있어요!`;
+}
+
+function showResult(total, dims, type, weakDims, aiFeedback) {
+  _lastResult = { total, dims, typeName: type.name, weakDims, aiFeedback };
+  document.getElementById('loading').className = 'loading';
+
+  const circ = 2 * Math.PI * 58;
+  const offset = circ - (circ * total / 100);
+
+  const ra = document.getElementById('result-area');
+  ra.className = 'result on';
+  ra.innerHTML = `
+    <div class="score-area">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="58" fill="none" stroke="#ede8dc" stroke-width="9"/>
+          <circle cx="70" cy="70" r="58" fill="none" stroke="${type.color}" stroke-width="9"
+            stroke-linecap="round"
+            stroke-dasharray="${circ.toFixed(1)}"
+            stroke-dashoffset="${offset.toFixed(1)}"/>
+        </svg>
+        <div class="ring-num">${total}</div>
+      </div>
+      <div class="type-name" style="color:${type.color}">${type.name}</div>
+      <div class="type-desc">${type.desc}</div>
+    </div>
+
+    <div class="section-title">영역별 점수</div>
+    ${dims.map((v,i)=>`
+      <div class="dim-row">
+        <div class="dim-top">
+          <span class="dim-name">${DIMS[i]}</span>
+          <span class="dim-pct">${v}점</span>
+        </div>
+        <div class="dim-track"><div class="dim-fill" style="width:${v}%"></div></div>
+        <div class="dim-tip">${TIPS_BY_DIM[i][v<40?2:v<70?1:0]}</div>
+      </div>
+    `).join('')}
+
+    ${freeText ? `
+    <div class="section-title">AI 맞춤 피드백</div>
+    <div class="ai-box">
+      <div class="ai-box-head">
+        <span class="ai-badge">AI</span>
+        고은영 강사 AI 어시스턴트의 피드백
+      </div>
+      <div class="ai-content">${aiFeedback.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('')}</div>
+    </div>
+    ` : ''}
+
+    <div class="section-title">집중 개선 조언</div>
+    <div class="advice-card">
+      <div class="advice-head">우선 집중할 영역 — ${DIMS[weakDims[0].i]}</div>
+      ${TIPS_BY_DIM[weakDims[0].i].map(t=>`<div class="advice-item">${t}</div>`).join('')}
+    </div>
+
+    <div class="section-title">나에게 맞는 스피치 꿀팁</div>
+    <div class="tip-grid">
+      ${getPersonalTips(weakDims).map(t=>`
+        <div class="tip-card">
+          <div class="tip-icon">${t.icon}</div>
+          <div class="tip-title">${t.title}</div>
+          <div class="tip-body">${t.body}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="cta">
+      <div class="cta-name">고은영 스피치 강사와 함께라면 달라져요</div>
+      <div class="cta-sub">1:1 맞춤 코칭 · 도슨트 · 군부대 · 학교 출강 가능</div>
+      <a class="cta-tel" href="tel:01087960704">010-8796-0704 전화하기</a>
+    </div>
+
+    <div class="email-section">
+      <div class="email-title">진단 결과를 이메일로 받아보세요</div>
+      <div class="email-sub">내 이메일 주소를 입력하면 진단 결과 전체가 자동으로 전송돼요.<br>고은영 강사님께도 함께 전달됩니다.</div>
+      <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:8px;">
+        <div style="display:flex; gap:8px;">
+          <input class="email-input" type="text" id="userName" placeholder="이름" style="max-width:130px;"/>
+          <input class="email-input" type="tel" id="userPhone" placeholder="전화번호 (예: 010-0000-0000)"/>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <input class="email-input" type="email" id="userEmail" placeholder="내 이메일 주소를 입력하세요"/>
+          <button class="email-send-btn" id="sendBtn" onclick="sendEmail()">전송하기</button>
+        </div>
+      </div>
+      <div class="email-status" id="emailStatus"></div>
+    </div>
+    <button class="reset" onclick="retry()">다시 진단하기</button>
+  `;
+}
+
+function sendEmail() {
+  const total = _lastResult.total;
+  const dims = _lastResult.dims;
+  const typeName = _lastResult.typeName;
+  const weakDims = _lastResult.weakDims;
+  const aiFeedback = _lastResult.aiFeedback;
+  const userName = document.getElementById('userName').value.trim();
+  const userPhone = document.getElementById('userPhone').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+  if (!userName) {
+    document.getElementById('emailStatus').textContent = '이름을 입력해주세요.';
+    document.getElementById('emailStatus').className = 'email-status err';
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailStatus').textContent = '올바른 이메일 주소를 입력해주세요.';
+    document.getElementById('emailStatus').className = 'email-status err';
+    return;
+  }
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  btn.textContent = '전송 중...';
+  document.getElementById('emailStatus').textContent = '';
+
+  const dimLines = DIMS.map((d,i) => `${d}: ${dims[i]}점`).join('\n');
+  const tipLines = TIPS_BY_DIM[weakDims[0].i].map(t => '· ' + t).join('\n');
+  const honeyLines = getPersonalTips(weakDims).map(t => `[${t.title}] ${t.body}`).join('\n');
+
+  const body = `[스피치 종합 자기점검 결과]
+
+■ 종합 점수: ${total}점
+■ 스피커 유형: ${typeName}
+
+■ 영역별 점수
+${dimLines}
+
+■ 집중 개선 영역: ${DIMS[weakDims[0].i]}
+${tipLines}
+
+■ AI 맞춤 피드백
+${aiFeedback}
+
+■ 스피치 꿀팁
+${honeyLines}
+
+---
+이름: ${userName}
+연락처: ${userPhone || '미입력'}
+이메일: ${email}
+고은영 스피치 강사 · 010-8796-0704`;
+
+  const subjectText = `[스피치 진단] ${userName} · ${typeName} · 종합 ${total}점`;
+
+  // 강사에게 전송 (Formspree 기본 수신)
+  const sendToTeacher = fetch('https://formspree.io/f/xgopkjkg', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _replyto: email,
+      subject: subjectText,
+      message: body
+    })
+  }).then(r => r.json());
+
+  // 수강생에게도 전송 (email 필드에 수강생 이메일 지정)
+  const sendToStudent = fetch('https://formspree.io/f/xgopkjkg', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      _replyto: 'shey_love@naver.com',
+      subject: `[나의 스피치 진단 결과] ${typeName} · ${total}점`,
+      message: `안녕하세요 ${userName}님!\n\n스피치 자기점검 결과를 보내드려요.\n\n` + body
+    })
+  }).then(r => r.json());
+
+  Promise.allSettled([sendToTeacher, sendToStudent])
+  .then(results => {
+    const ok = results.some(r => r.status === 'fulfilled' && (r.value.ok || r.value.next));
+    if (ok) {
+      document.getElementById('emailStatus').textContent = '✓ 강사님과 내 이메일 모두 전송됐어요!';
+      document.getElementById('emailStatus').className = 'email-status ok';
+      btn.textContent = '전송 완료';
+    } else {
+      throw new Error('fail');
+    }
+  })
+  .catch(() => {
+    document.getElementById('emailStatus').textContent = '전송에 실패했어요. 잠시 후 다시 시도해주세요.';
+    document.getElementById('emailStatus').className = 'email-status err';
+    btn.disabled = false;
+    btn.textContent = '전송하기';
+  });
+}
+
+function retry() {
+  cur = 0;
+  ans = new Array(QS.length).fill(-1);
+  freeText = "";
+  document.getElementById('quiz-area').style.display = 'block';
+  document.getElementById('result-area').className = 'result';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
