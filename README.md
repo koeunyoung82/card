@@ -1,4 +1,4 @@
-[index.html.html](https://github.com/user-attachments/files/26917971/index.html.html)
+[index.html](https://github.com/user-attachments/files/26917971/index.html.html)
 # card
 명함을 위한 장소
 <!DOCTYPE html>
