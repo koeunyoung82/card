@@ -18,7 +18,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--ink); background: var(--bg); }
+  body { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--ink); background: var(--bg); word-break: keep-all; overflow-wrap: break-word; }
 
   /* NAV */
   nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding: 0 clamp(20px,6vw,80px); display: flex; align-items: center; justify-content: space-between; height: 54px; }
@@ -37,7 +37,7 @@
   .hero-name span { color: var(--brown); }
   .hero-en { font-size: 13px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 24px; }
   .hero-tagline { font-size: clamp(14px,2vw,17px); color: var(--ink); line-height: 1.9; border-left: 3px solid var(--gold); padding-left: 16px; margin-bottom: 24px; }
-  .hero-roles { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; }
+  .hero-roles { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; margin-top: 20px; }
   .hero-roles-row { display: flex; gap: 7px; }
   .hero-role { font-size: 11px; color: var(--brown); background: #fff; border: 1px solid #e8c9a8; padding: 4px 12px; border-radius: 20px; }
   .hero-photo-wrap { display: flex; justify-content: center; align-items: center; }
@@ -79,6 +79,7 @@
   .skill-card:hover { border-color: #e8c9a8; box-shadow: 0 4px 16px rgba(139,69,19,0.06); }
   .skill-icon { font-size: 24px; margin-bottom: 10px; }
   .skill-name { font-family: 'Noto Serif KR', serif; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+  .skill-key { font-size: 13px; font-weight: 500; color: var(--brown); line-height: 1.6; margin-bottom: 6px; }
   .skill-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
   .skill-bar { margin-top: 12px; height: 3px; background: var(--line); border-radius: 2px; }
   .skill-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--brown), var(--gold)); }
@@ -132,11 +133,11 @@
       <div class="hero-tag">MEDIA · SPEECH · VIDEO PM</div>
       <h1 class="hero-name"><span>고</span>은영</h1>
       <div class="hero-en">Ko Eun-young</div>
-      <p class="hero-tagline">흐트러진 메시지를<br>전달 가능한 형태로 바꾸는 사람</p>
+      <p class="hero-tagline">흐트러진 메시지를<br>전달 가능한 형태로 바꾸는 사람.</p>
       <p class="hero-sub-tagline">
-        다양한 역할을 수행할 수 있지만 목표는 하나<br>
-        필요한 대상에게 <strong>[메시지가 닿는 것]</strong><br>
-        필요한 방식으로 함께합니다
+        다양한 역할을 수행할 수 있지만 목표는 하나.<br>
+        필요한 대상에게 <strong>[메시지가 닿는 것]</strong>,<br>
+        필요한 방식으로 함께합니다.
       </p>
       <div class="hero-roles">
         <div class="hero-roles-row">
@@ -170,9 +171,9 @@
     </div>
     <div class="about-grid">
       <div class="about-text reveal">
-        <p>강원도 <strong>원주·횡성</strong>을 기반으로 20년 이상 활동해온 <strong>구조형 커뮤니케이터</strong>입니다. 영상제작 프로덕션 PD로 커리어를 시작했으며, 퇴사 후 프리랜서로 전향해 인터뷰 작가, 구성작가, 내레이터, 행사 MC, 스피치 강사, 영상 PM까지 — 말과 글과 영상이 교차하는 모든 현장에 있었습니다.</p>
-        <p><strong>원주시정방송(TV송출 WTB · 유튜브 원주큐)</strong> 취재 리포터로 매주 현장을 누비며, 시민의 시선으로 시정을 기록해왔습니다. 현재는 각종 공공기관·기업 홍보영상 구성 및 영상PM, 행사 사회자, 스피치 강사로 활동하고 있습니다.</p>
-        <p>복잡하고 흐트러진 정보를 <strong>시청자·독자가 이해하는 언어</strong>로 재구성하는 것이 저의 핵심 역량입니다.</p>
+        <p>강원도 <strong>원주·횡성</strong>을 기반으로 20년 이상<br>활동해온 <strong>구조형 커뮤니케이터</strong>입니다.<br>영상제작 프로덕션 PD로 커리어를 시작했으며,<br>퇴사 후 프리랜서로 전향해 인터뷰 작가, 구성작가,<br>내레이터, 행사 MC, 스피치 강사, 영상 PM까지 —<br>말과 글과 영상이 교차하는 모든 현장에 있었습니다.</p>
+        <p><strong>원주시정방송(TV송출 WTB · 유튜브 원주큐)</strong><br>취재 리포터로 매주 현장을 누비며,<br>시민의 시선으로 시정을 기록해왔습니다.<br><br>현재는 각종 공공기관·기업 홍보영상 구성 및<br>영상PM, 행사 사회자, 스피치 강사로<br>활동하고 있습니다.</p>
+        <p>복잡하고 흐트러진 정보를<br><strong>시청자·독자가 이해하는 언어</strong>로<br>재구성하는 것이 저의 핵심 역량입니다.</p>
       </div>
       <div class="stat-grid reveal">
         <div class="stat-item">
@@ -240,37 +241,43 @@
       <div class="skill-card reveal">
         <div class="skill-icon">🎙️</div>
         <div class="skill-name">취재 & 리포팅</div>
-        <div class="skill-desc">현장에서 바로 전달 가능한 형태로 정리합니다 — 현장 취재, 원고 작성, 보이스 녹음.</div>
+        <div class="skill-key">현장에서 바로<br>전달 가능한 형태로 정리합니다.</div>
+        <div class="skill-desc">현장 취재 · 원고 작성 · 보이스 녹음</div>
         <div class="skill-bar"><div class="skill-fill" style="width:96%"></div></div>
       </div>
       <div class="skill-card reveal">
         <div class="skill-icon">✍️</div>
         <div class="skill-name">글쓰기 & 구성</div>
-        <div class="skill-desc">흩어진 내용을 읽히는 구조로 바꿉니다 — 홍보영상, 인터뷰 기사, 책자 등 다양한 포맷.</div>
+        <div class="skill-key">흩어진 내용을<br>읽히는 구조로 바꿉니다.</div>
+        <div class="skill-desc">홍보영상 구성 · 인터뷰 기사 · 책자 원고</div>
         <div class="skill-bar"><div class="skill-fill" style="width:94%"></div></div>
       </div>
       <div class="skill-card reveal">
         <div class="skill-icon">🎬</div>
         <div class="skill-name">영상 PM</div>
-        <div class="skill-desc">전체 흐름이 끊기지 않게 조율합니다 — 일정 조율, 스태프 섭외, 현장 진행.</div>
+        <div class="skill-key">전체 흐름이<br>끊기지 않게 조율합니다.</div>
+        <div class="skill-desc">일정 조율 · 스태프 섭외 · 현장 진행</div>
         <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
       </div>
       <div class="skill-card reveal">
         <div class="skill-icon">🎤</div>
         <div class="skill-name">내레이션 & 보이스</div>
-        <div class="skill-desc">내용의 톤과 전달력을 맞춰 완성합니다 — MBC, 영서방송, 지자체·기업 광고 100편 이상.</div>
+        <div class="skill-key">내용의 톤과<br>전달력을 맞춰 완성합니다.</div>
+        <div class="skill-desc">MBC · 영서방송 · 지자체·기업 광고 100편+</div>
         <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
       </div>
       <div class="skill-card reveal">
         <div class="skill-icon">📢</div>
         <div class="skill-name">행사 진행 MC</div>
-        <div class="skill-desc">현장의 흐름과 분위기를 동시에 잡습니다 — 공공·문화·음악·체육 등 다양한 장르.</div>
+        <div class="skill-key">현장의 흐름과<br>분위기를 동시에 잡습니다.</div>
+        <div class="skill-desc">공공 · 문화 · 음악 · 체육 등 다양한 장르</div>
         <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
       </div>
       <div class="skill-card reveal">
         <div class="skill-icon">🗣️</div>
         <div class="skill-name">스피치 강의</div>
-        <div class="skill-desc">듣는 사람 기준으로 말하는 법을 설계합니다 — 키즈·성인·군부대·도슨트 등 대상별 맞춤.</div>
+        <div class="skill-key">듣는 사람 기준으로<br>말하는 법을 설계합니다.</div>
+        <div class="skill-desc">키즈 · 성인 · 군부대 · 도슨트 등 대상별 맞춤</div>
         <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
       </div>
     </div>
@@ -309,10 +316,10 @@
           <div class="c-icon">✉️</div>
           <div><div class="c-label">EMAIL</div><div class="c-val">shey_love@naver.com</div></div>
         </a>
-        <div class="contact-item" style="cursor:default;">
-          <div class="c-icon">📍</div>
-          <div><div class="c-label">LOCATION</div><div class="c-val">강원특별자치도 원주 · 횡성</div></div>
-        </div>
+        <a class="contact-item" href="https://open.kakao.com/o/sLhwXDri" target="_blank">
+          <div class="c-icon">💬</div>
+          <div><div class="c-label">KAKAO TALK</div><div class="c-val">카카오톡 오픈채팅 문의</div></div>
+        </a>
       </div>
     </div>
   </div>
